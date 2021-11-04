@@ -5,7 +5,7 @@
 #define ROWS 10
 
 typedef struct Cell {
-  std::string playerCatcher;
+  std::string playerCatcher = "";
   int cellValue;
   bool isPrime = false;
   bool isPalindrome = false;
