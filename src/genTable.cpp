@@ -3,9 +3,6 @@
 #include <string>
 #include <vector>
 #include<algorithm>
-
-
-
 #include<random>
 
 
@@ -14,16 +11,12 @@
 
 std::vector<bool> exist(1000, 0);
 
-
-
 int countPrimes = 0, countPalindromes = 0, countBoth = 0;
 
 int nPerfect(int value){
-  int sum =0; 
-  for(int i = 1 ;i <value ; i++) {
-    if(!(value % i)){
-      sum+=i;
-    }
+  int sum =0 ; 
+  for(int i = 1; i < value ; i++){
+    if(!(value % i )) sum+=i;
   }
   return sum;
 
@@ -68,13 +61,12 @@ bool palindromeNumber(int value) {
 }
 
 bool friendNumber(int value) {
-
   return value == nPerfect(nPerfect(value));
-
 }
 
 bool perfectNumber(int value) {
-  return value = nPerfect(value) ? 1 : 0; 
+
+  return nPerfect(value) == value ? 1 : 0; 
 }
 
 

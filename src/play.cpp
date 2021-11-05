@@ -9,42 +9,34 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <random>
 
 std::pair<int, int> dices;
 
 bool gameOver = true;
 
 void getDices() {
-  dices.first = rand() % 9;
-  dices.second = rand() % 9;
+  std::random_device r;
+  std::default_random_engine el(r());
+  std::uniform_int_distribution<int> uniform_dist(0 , 9);
+  dices.first = uniform_dist(el);
+  dices.second = uniform_dist(el);
 }
 
 int getScore(std::vector<std::vector<cell>> &table) {
-  int i = dices.first, j = dices.second, cValue = table[i][j].cellValue;
-  std::string playerCatcher = table[i][j].playerCatcher;
-  bool isPrime = table[i][j].isPrime, isPalindrome = table[i][j].isPalindrome,
-       inDiagonal = table[i][j].inDiagonal, isFriend = table[i][j].isFriend,
-       isPerfect = table[i][j].isPerfect;
+  int i = dices.first, j = dices.second, value = table[i][j].cellValue;
 
-  if (playerCatcher.size() != 0) {
-    return 30;
+  int score = 0;
+
+  if (table[i][j].isPrime && table[i][j].isPalindrome && table[i][j].inDiagonal) {
+    score = value * 4;
+  }else if(table[i][j].isPrime && table[i][j].isPalindrome){
+		score = value * 2;
+  }else if(table[i][j].isPrime || table[i][j].isPalindrome && table[i][j].inDiagonal){
+		score = value * 2; 
+  }else if(table[i][j].isPrime || table[i][j].isPalindrome){
+		score = value;
   }
-
-  int score = 30;
-
-	// FIXME: Not Working?
-  if (isPrime && isPalindrome && inDiagonal) {
-    score = cValue * 4;
-	}
-	else if(isPrime && isPalindrome){
-		score = cValue * 2;
-	}
-	else if(isPrime || isPalindrome && inDiagonal){
-		score = cValue * 2; 
-	}
-	else if(isPrime || isPalindrome){
-		score = cValue;
-	}
   return score;
 }
 
@@ -66,20 +58,19 @@ std::vector<bool> specials(std::vector<std::vector<cell>> &table ) {
 void throwDices(std::vector<pInGame> &players,
                 std::vector<std::vector<cell>> &table , int &goldenScore) {
   int playerTurn = 0;
-  while (gameOver) {
+  while (1) {
     while (players[playerTurn].turns--) {
       getDices();
 
-			// FIXME: TRULY bugs 
-      //if (table[dices.first][dices.second].playerCatcher.size() != 0) {
-       // players[playerTurn].turns++;
-			//	continue;
-      //}
+      if (!table[dices.first][dices.second].playerCatcher.size()){
+	  table[dices.first][dices.second].playerCatcher = players[playerTurn].username;
+      }else if(table[dices.first][dices.second].playerCatcher != players[playerTurn].username){
+	players[playerTurn].turns++;
+	continue;
+      }
 
-			if(table[dices.first][dices.second].isFriend) players[playerTurn].turns++;
-			//if(table[dices.first][dices.second].isPerfect) players[playerTurn].turns+=2;
-
-			table[dices.first][dices.second].playerCatcher = players[playerTurn].username; 
+      if(table[dices.first][dices.second].isFriend) players[playerTurn].turns++;
+      if(table[dices.first][dices.second].isPerfect) players[playerTurn].turns+=2;
 
       int score = getScore(table);
 
@@ -93,7 +84,7 @@ void throwDices(std::vector<pInGame> &players,
 				return; 	
 			}
     }
-		players[playerTurn].turns = 1; 
+    players[playerTurn].turns = 1; 
     playerTurn = playerTurn == 0 ? 1 : 0;
   }
 }
@@ -102,8 +93,9 @@ void play(std::vector<std::vector<cell>> &table , int &goldenScore) {
 
   char playOptions;
   std::vector<pInGame> players;
+  bool loaded = 0;
 
-  while (gameOver) {
+  while (1) {
 
     showPlayMenu();
 
@@ -111,10 +103,12 @@ void play(std::vector<std::vector<cell>> &table , int &goldenScore) {
 
     if (playOptions == '1') {
       players = chosePlayers();
+      loaded = 1;
     }
-    if (playOptions == '2') {
+    if (playOptions == '2'  ) {
+      if(loaded)
       throwDices(players, table , goldenScore);
-			return; 
+      else printf("\n\n NO HA SELECCIONADO JUGADORES \n\n");
     }
     if (playOptions == '3')
       return;

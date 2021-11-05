@@ -12,22 +12,23 @@ int main(){
   int goldenScore; 
   std::vector<std::vector<cell>> table;
   std::vector<player> playersData = getPlayersData();
-	std::vector<bool> loaded(2);
-  while(gameOver){
+  std::vector<bool> loaded(2);
+
+  while(1){
     showMainMenu();
-		std::cin>>menuOp;
+    std::cin>>menuOp;
     if(menuOp == '1'){
       table = genTable(goldenScore);
-			loaded[0] = 1; 
+      loaded[0] = 1; 
     }
     if(menuOp == '2'){
 			std::string name , surname , username;
 			puts("*************** Registrar Usario **************\n");
-			puts("Nombre:");
+			printf("\nNombre: ");
 			std::cin>>name;
-			puts("Apellido:");
+			printf("\nApellido: ");
 			std::cin>>surname;
-			puts("Nombre de Usario:");
+			printf("\nNombre de Usario: ");
 			std::cin>>username; 
       postPlayer(name, surname, username, playersData);
 			loaded[1] =1;
@@ -36,8 +37,10 @@ int main(){
       showPlayers();
     }
     if(menuOp == '4'){
-			if(loaded[0] && loaded[1]) 
-     		play(table, goldenScore );
+      if(loaded[0]) {
+	goldenScore+=1000; 
+	play(table, goldenScore);
+      }	
     }
     if(menuOp == '5') break;
   }

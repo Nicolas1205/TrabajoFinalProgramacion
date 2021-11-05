@@ -1,5 +1,5 @@
-#include"../include/registerPlayer.h"
-#include"../include/chosePlayer.h"
+//#include"../include/registerPlayer.h"
+//#include"../include/chosePlayer.h"
 #include"../include/genTable.h"
 #include<iostream>
 
@@ -21,7 +21,8 @@ int main(){
     int goldenScore; 
     std::vector<std::vector<cell>> table = genTable(goldenScore); 
 
-    printf("PRIMES\n"); 
+    printf(" %d\n", goldenScore);
+    printf("FRIENDS\n"); 
 
     for(int i =0 ;  i < 10 ; i++){
       for(int j =0 ;  j < 10 ; j++){
