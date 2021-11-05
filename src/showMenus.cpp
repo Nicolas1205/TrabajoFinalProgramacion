@@ -1,11 +1,17 @@
 #include "../include/showMenus.h"
+#include"../include/chosePlayer.h"
 #include <iostream>
 #include <stdio.h>
 #include <string>
 #include <vector>
 
+void showPlayerWinner(pInGame player){
+	std::cout<<"Jugador "<<player.username<<" Ha ganado!!!\n"
+		<<"Nombre Completo: "<<player.name<<" "<<player.surname<<'\n';
+}
+
 void showMainMenu() {
-  printf("************* principal **************** \n"
+  printf("************* PRINCIPAL **************** \n"
          "1- generar tablero \n"
          "2- registrar jugadores \n"
          "3- listar jugadores \n"
@@ -16,7 +22,7 @@ void showMainMenu() {
 }
 
 void showPlayMenu() {
-  printf("********* comienza la aventura ***********\n"
+  printf("********* Comienza la aventura ***********\n"
          "1- seleccionar jugadores\n"
          "2- lanzamiento de dados\n"
          "3- salir\n"
@@ -33,6 +39,7 @@ void showPlayerResults(std::string username, std::pair<int, int> dices,
   std::cout << "dado 1: " << dices.first << " - dado 2: " << dices.second
             << '\n';
   std::cout << "numero encontrado: " << foundNumber;
+	// FIXME: Make an structure for isSpecial
   if (isSpecial[0])
     std::cout << "(primo) ";
   if (isSpecial[1])
