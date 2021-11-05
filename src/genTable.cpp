@@ -25,7 +25,7 @@ int nPerfect(int value){
 int getRandom() {
   std::random_device r;
   std::default_random_engine el(r());
-  std::uniform_int_distribution<int> uniform_dist(1 , 100);
+  std::uniform_int_distribution<int> uniform_dist(1 , 1000);
   int random = uniform_dist(el);
   if (!exist[random]) {
     exist[random] = 1;
@@ -35,8 +35,7 @@ int getRandom() {
 }
 
 int getGoldenScore() {
-//  return countPrimes * 0.2 + countPalindromes * 0.3 + countBoth * 0.5;
-  return countPrimes + countPalindromes  + countBoth ;
+  return countPrimes + countPalindromes + countBoth + 10000; 
 }
 
 bool primeNumber(int value) { 

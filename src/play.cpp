@@ -10,10 +10,11 @@
 #include <utility>
 #include <vector>
 #include <random>
+#include<chrono>
+#include<thread> 
 
 std::pair<int, int> dices;
 
-bool gameOver = true;
 
 void getDices() {
   std::random_device r;
@@ -62,10 +63,13 @@ void throwDices(std::vector<pInGame> &players,
     while (players[playerTurn].turns--) {
       getDices();
 
-      if (!table[dices.first][dices.second].playerCatcher.size()){
+      if (!table[dices.first][dices.second].isCatched){
 	  table[dices.first][dices.second].playerCatcher = players[playerTurn].username;
+	  table[dices.first][dices.second].isCatched = true; 
       }else if(table[dices.first][dices.second].playerCatcher != players[playerTurn].username){
 	players[playerTurn].turns++;
+	int propertyOf = playerTurn == 0 ? 1 : 0;
+	std::cout<<"\n Esta casillla no puede ser tomada!! , es propiedad de: "<<players[propertyOf].username;
 	continue;
       }
 
@@ -76,13 +80,15 @@ void throwDices(std::vector<pInGame> &players,
 
       players[playerTurn].points += score;
 
-      showPlayerResults(players[playerTurn].username, dices, specials(table),
-                        table[dices.first][dices.second].cellValue, score);
+      showPlayerResults(players[playerTurn], dices, specials(table),
+                        table[dices.first][dices.second].cellValue, score );
 
-			if(players[playerTurn].points >= goldenScore){
-				showPlayerWinner(players[playerTurn]); 
-				return; 	
-			}
+      std::this_thread::sleep_for(std::chrono::seconds(1));
+
+      if(players[playerTurn].points >= goldenScore){
+	  showPlayerWinner(players[playerTurn] ); 
+	  return; 	
+      }
     }
     players[playerTurn].turns = 1; 
     playerTurn = playerTurn == 0 ? 1 : 0;
@@ -96,19 +102,24 @@ void play(std::vector<std::vector<cell>> &table , int &goldenScore) {
   bool loaded = 0;
 
   while (1) {
-
-    showPlayMenu();
+    std::cout << "\033[2J\033[1;1H";
+    showPlayMenu(players);
 
     scanf("%c", &playOptions);
 
     if (playOptions == '1') {
+      std::cout << "\033[2J\033[1;1H";
       players = chosePlayers();
       loaded = 1;
     }
     if (playOptions == '2'  ) {
+      std::cout << "\033[2J\033[1;1H";
       if(loaded)
       throwDices(players, table , goldenScore);
       else printf("\n\n NO HA SELECCIONADO JUGADORES \n\n");
+      players[0].points = 0;
+      players[1].points = 0;
+      std::this_thread::sleep_for(std::chrono::seconds(10));
     }
     if (playOptions == '3')
       return;

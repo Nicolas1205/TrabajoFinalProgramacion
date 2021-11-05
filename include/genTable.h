@@ -1,11 +1,13 @@
-#ifndef GENTABLE
-#define GENTABLE
 #include <string>
 #include <vector>
 
+#ifndef GENTABLE
+#define GENTABLE
+
 typedef struct Cell {
-  std::string playerCatcher = "";
+  std::string playerCatcher;
   int cellValue;
+  bool isCatched = false;
   bool isPrime = false;
   bool isPalindrome = false;
   bool inDiagonal = false;
@@ -27,6 +29,6 @@ bool perfectNumber(int value);
 
 bool palindromeNumber(int value);
 
-std::vector<std::vector<cell>> genTable(int &golderScore);
+std::vector<std::vector<cell>> genTable(int &goldenScore);
 
 #endif

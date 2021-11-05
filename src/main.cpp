@@ -3,11 +3,11 @@
 #include"../include/registerPlayer.h"
 #include"../include/genTable.h"
 #include<iostream> 
-
+#include<chrono>
+#include<thread>
 
 int main(){
 
-  bool  gameOver = true;
   char menuOp;
   int goldenScore; 
   std::vector<std::vector<cell>> table;
@@ -15,15 +15,17 @@ int main(){
   std::vector<bool> loaded(2);
 
   while(1){
-    showMainMenu();
+    std::cout << "\033[2J\033[1;1H";
+    showMainMenu(loaded[0] , playersData.size() , playersData.size() , goldenScore);
     std::cin>>menuOp;
     if(menuOp == '1'){
       table = genTable(goldenScore);
       loaded[0] = 1; 
     }
     if(menuOp == '2'){
+			
 			std::string name , surname , username;
-			puts("*************** Registrar Usario **************\n");
+			puts( "*************** Registrar Usario **************\n");
 			printf("\nNombre: ");
 			std::cin>>name;
 			printf("\nApellido: ");
@@ -34,11 +36,12 @@ int main(){
 			loaded[1] =1;
     }
     if(menuOp == '3'){
+      std::cout << "\033[2J\033[1;1H";
       showPlayers();
+      std::this_thread::sleep_for(std::chrono::seconds(5));
     }
     if(menuOp == '4'){
-      if(loaded[0]) {
-	goldenScore+=1000; 
+      if(loaded[0] && playersData.size() >= 2) {
 	play(table, goldenScore);
       }	
     }
