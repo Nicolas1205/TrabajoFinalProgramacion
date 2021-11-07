@@ -9,19 +9,18 @@ typedef struct Player {
   std::string surname;
   std::string username;
   bool playing = false;
-  //  int32_t currentPoints = 0;
-  // uint32_t looses = 0;
-  // uint32_t wins = 0;
+  uint32_t points = 0;
+  uint32_t turns = 1;
 
-} player;
+} Player;
 
-std::vector<player> getPlayersData();
+std::vector<Player> get_players_data();
 
-bool compare(player a, player b);
+bool compare(Player a, Player b);
 
-void postPlayer(std::string &name, std::string &surname, std::string &username,
-                std::vector<player> &playersData);
+void post_player(std::string &name, std::string &surname, std::string &username,
+                 std::vector<Player> &playersData);
 
-void showPlayers();
+void show_players();
 
 #endif

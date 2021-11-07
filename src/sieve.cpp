@@ -1,18 +1,20 @@
-#include"../include/sieve.h"
-#include<vector>
-#include<stdio.h>
-#include<math.h>
+#include "../include/sieve.h"
+#include <math.h>
+#include <stdio.h>
+#include <vector>
 
-std::vector<bool> getSieve() {
+std::vector<bool> get_sieve() {
 
-    std::vector<bool> sieve(1000, 1);
+  std::vector<bool> sieve(1000, 1);
 
-    for(int i = 2 ; i < sieve.size() ; i++ ){
-        for(int j = i ; j < sqrt(sieve.size()); j+=j){
-            sieve[j] = 0;
-        }
+  sieve[0] = 0;
+  sieve[1] = 0;
+
+  for (int i = 2; i <= sqrt(sieve.size()); i++) {
+    for (int j = i + i; j < sieve.size(); j += i) {
+      sieve[j] = 0;
     }
+  }
 
-    return sieve;
-
+  return sieve;
 }

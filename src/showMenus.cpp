@@ -1,28 +1,33 @@
 #include "../include/showMenus.h"
-#include"../include/chosePlayer.h"
+#include "../include/chosePlayer.h"
 #include <iostream>
 #include <stdio.h>
 #include <string>
 #include <vector>
 
-void showPlayerWinner(pInGame winner){
-	std::cout<<"******** RESULTADOS DE LA PARTIDA **************\n";
-	std::cout<<"Jugador: "<<winner.username<<" ha ganado!!!\n\n"
-		<<"Nombre Completo: "<<winner.name<<" "<<winner.surname<<'\n';
-	std::cout<<"Puntaje Total: "<<winner.points<<'\n';
+void show_player_winner(Player winner) {
+  std::cout << "******** RESULTADOS DE LA PARTIDA **************\n";
+  std::cout << "Jugador: " << winner.username << " ha ganado!!!\n\n"
+            << "Nombre Completo: " << winner.name << " " << winner.surname
+            << '\n';
+  std::cout << "Puntaje Total: " << winner.points << '\n';
 }
 
-void showMainMenu(bool tCreated , bool pExist , int size , int &goldenScore) {
+void show_main_menu(bool tCreated, bool pExist, int size, int &goldenScore) {
   printf("************* PRINCIPAL **************** \n"
          "1- Generar tablero  ");
 
-  if(tCreated) printf("(TABLERO GENERADO) Puntaje Dorado: %d" , goldenScore);
+  if (tCreated)
+    printf("(TABLERO GENERADO) Puntaje Dorado: %d", goldenScore);
 
   printf("\n2- Registrar jugadores ");
 
-  if(pExist) printf("(Existen Jugadores Registrados)");
-  if(size >= 2) printf(" %d " , size);
-  else printf(" se necesitan 2 o mas jugadores, ahora mismo %d" , size);
+  if (pExist)
+    printf("(Existen Jugadores Registrados)");
+  if (size >= 2)
+    printf(" %d ", size);
+  else
+    printf(" se necesitan 2 o mas jugadores, ahora mismo %d", size);
 
   printf("\n3- Listar jugadores \n"
          "4- Jugar \n"
@@ -31,14 +36,16 @@ void showMainMenu(bool tCreated , bool pExist , int size , int &goldenScore) {
          "Elija una opcion: ");
 }
 
-void showPlayMenu(std::vector<pInGame> &players) {
+void show_play_menu(std::vector<Player> &players) {
   printf("\n********* Comienza la aventura ***********\n");
 
+  printf("1- Seleccionar jugadores ");
 
-  printf( "1- Seleccionar jugadores ");
-
-  if(players.size()) std::cout<<" (Jugador 1: "<<players[0].username<<" Jugador 2: "<<players[1].username<<")\n";
-  else printf(" (No hay jugadores Seleccionados)\n");
+  if (players.size())
+    std::cout << " (Jugador 1: " << players[0].username
+              << " Jugador 2: " << players[1].username << ")\n";
+  else
+    printf(" (No hay jugadores Seleccionados)\n");
 
   printf("2- Lanzamiento de dados\n"
          "3- Salir\n"
@@ -46,9 +53,9 @@ void showPlayMenu(std::vector<pInGame> &players) {
          "Elija una opcion: ");
 }
 
-void showPlayerResults(pInGame player , std::pair<int, int> dices,
-                       std::vector<bool> isSpecial, int foundNumber,
-                       int score) {
+void show_player_results(Player player, std::pair<int, int> dices,
+                         std::vector<bool> isSpecial, int foundNumber,
+                         int score) {
   std::cout << "\n\nTurno de jugador: " << player.username << '\n';
   std::cout << "Lanzando dados...\n";
   std::cout << "Dado 1: " << dices.first << " - Dado 2: " << dices.second

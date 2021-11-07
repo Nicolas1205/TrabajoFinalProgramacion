@@ -13,22 +13,22 @@ typedef struct Cell {
   bool inDiagonal = false;
   bool isFriend = false;
   bool isPerfect = false;
-} cell;
+} Cell;
 
-int nPerfect(int value);
+int calculate_perfect_number(int value);
 
-int getRandom();
+int get_random();
 
-int getGoldenScore();
+int get_golden_score();
 
-bool primeNumber(int value);
+bool prime_number(int value);
 
-bool friendNumber(int value);
+bool friend_number(int value);
 
-bool perfectNumber(int value);
+bool perfect_number(int value);
 
-bool palindromeNumber(int value);
+bool palindrome_number(int value);
 
-std::vector<std::vector<cell>> genTable(int &goldenScore);
+std::vector<std::vector<Cell>> gen_table(int &goldenScore);
 
 #endif

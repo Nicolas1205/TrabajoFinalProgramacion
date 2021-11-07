@@ -1,17 +1,18 @@
+#include "chosePlayer.h"
 #include <string>
 #include <vector>
-#include"chosePlayer.h"
 
 #ifndef SHOWMENUS
 #define SHOWMENUS
 
-void showPlayerWinner(pInGame winner);
+void show_player_winner(Player winner);
 
-void showMainMenu(bool tCreated , bool pExist , int size , int &goldenScore);
+void show_main_menu(bool tCreated, bool pExist, int size, int &goldenScore);
 
-void showPlayMenu(std::vector<pInGame> &players);
+void show_play_menu(std::vector<Player> &players);
 
-void showPlayerResults(pInGame player, std::pair<int, int> dices,
-                       std::vector<bool> isSpecial, int foundNumber, int score);
+void show_player_results(Player player, std::pair<int, int> dices,
+                         std::vector<bool> isSpecial, int foundNumber,
+                         int score);
 
 #endif // SHOWMENUS

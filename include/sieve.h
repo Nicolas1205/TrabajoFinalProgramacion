@@ -1,7 +1,7 @@
 #ifndef SIEVE
 #define SIEVE
-#include<vector>
+#include <vector>
 
-std::vector<bool> getSieve();
+std::vector<bool> get_sieve();
 
 #endif

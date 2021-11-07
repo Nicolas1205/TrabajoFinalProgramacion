@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 
-std::vector<player> getPlayersData() {
+std::vector<Player> get_players_data() {
 
   std::ifstream i("../data/players.txt");
 
@@ -13,30 +13,30 @@ std::vector<player> getPlayersData() {
   i >> players_sz;
 
   if (!players_sz) {
-    std::vector<player> playersData;
+    std::vector<Player> playersData;
     return playersData;
   }
 
-  std::vector<player> playersData(players_sz);
+  std::vector<Player> players_data(players_sz);
 
   for (int iter = 0; iter < players_sz; iter++) {
-    i >> playersData[iter].username >> playersData[iter].name >>
-        playersData[iter]
+    i >> players_data[iter].username >> players_data[iter].name >>
+        players_data[iter]
             .surname; //>>playersData[i].looses>>playersData[i].wins;
   }
 
-  return playersData;
+  return players_data;
 }
 
-bool compare(player a, player b) {
+bool compare(Player a, Player b) {
   if (a.surname < b.surname) {
     return 1;
   } else
     return 0;
 }
 
-void postPlayer(std::string &name, std::string &surname, std::string &username,
-                std::vector<player> &playersData) {
+void post_player(std::string &name, std::string &surname, std::string &username,
+                 std::vector<Player> &playersData) {
 
   std::ofstream o("../data/players.txt");
 
@@ -67,9 +67,9 @@ void postPlayer(std::string &name, std::string &surname, std::string &username,
   }
 }
 
-void showPlayers() {
+void show_players() {
 
-  std::vector<player> playersData = getPlayersData();
+  std::vector<Player> playersData = get_players_data();
 
   for (int i = 0; i < playersData.size(); i++) {
     std::cout << "Usuario: " << playersData[i].username << "\n\t";
