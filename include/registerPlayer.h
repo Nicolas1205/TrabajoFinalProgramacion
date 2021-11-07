@@ -9,8 +9,8 @@ typedef struct Player {
   std::string surname;
   std::string username;
   bool playing = false;
-  uint32_t points = 0;
-  uint32_t turns = 1;
+  int points = 0;
+  int turns = 1;
 
 } Player;
 

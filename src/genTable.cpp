@@ -35,10 +35,6 @@ int get_random() {
   return get_random();
 }
 
-int get_golden_score() {
-  return countPrimes + countPalindromes + countBoth + 2000;
-}
-
 bool prime_number(int value) {
   if (sieve[value]) {
     countPrimes++;
@@ -86,6 +82,10 @@ std::vector<std::vector<Cell>> gen_table(int &goldenScore) {
         countBoth++;
     }
   }
+
+  auto get_golden_score = []() {
+    return countPrimes + countPalindromes + countBoth + 1000;
+  };
 
   goldenScore = get_golden_score();
 
