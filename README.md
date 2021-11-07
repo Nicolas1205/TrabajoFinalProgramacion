@@ -16,11 +16,11 @@ Download this repo:
 git clone https://github.com/Nicolas1205/TrabajoFinalProgramacion.git
 ```
 
-Use the binaries `app` located in `bin' directorie
+Use the binaries `app` located in `bin` directory
 
 Or alternativaly you can build from source
 
-Run inside 'src' direcotorie:
+Run inside `src` direcotory:
 
 ```bash
 g++ -Wall -std=c++17 -o main main.cpp genTable.cpp registerPlayer.cpp chosePlayer.cpp sieve.cpp showMenus.cpp play.cpp
