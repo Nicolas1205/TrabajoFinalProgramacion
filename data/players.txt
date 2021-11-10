@@ -1,13 +1,1 @@
-4
-secadora
-	nicolas
-	anachuri
-anachuri
-	nicolas
-	daniel
-s
-	dhuishduisadh
-	djsaiudhusai
-a
-	auddsdsdsa
-	dsauidsad
+0

@@ -1,20 +1,20 @@
-#include "../include/chosePlayer.h"
-#include "../include/registerPlayer.h"
+#include "../include/chose_player.h"
+#include "../include/register_player.h"
 #include <iostream>
 #include <string>
 
-bool search_player(std::string username, std::vector<Player> &playersData,
+bool search_player(std::string username, std::vector<Player> &players_data,
                    std::vector<Player> &players, int p) {
 
-  for (int i = 0; i < playersData.size(); i++) {
-    if (playersData[i].username == username) {
-      if (!playersData[i].playing) {
-        playersData[i].playing = true;
-        players[p].name = playersData[i].name;
-        players[p].surname = playersData[i].surname;
-        players[p].username = playersData[i].username;
+  for (int i = 0; i < players_data.size(); i++) {
+    if (players_data[i].username == username) {
+      if (!players_data[i].playing) {
+        players_data[i].playing = true;
+        players[p].name = players_data[i].name;
+        players[p].surname = players_data[i].surname;
+        players[p].username = players_data[i].username;
         return true;
-      } else if (playersData[i].playing) {
+      } else if (players_data[i].playing) {
         puts("ESTE JUGADOR YA FUE SELECCIONADO");
         return false;
       }
@@ -26,7 +26,7 @@ bool search_player(std::string username, std::vector<Player> &playersData,
 
 std::vector<Player> chose_players() {
 
-  std::vector<Player> playersData = get_players_data();
+  std::vector<Player> players_data = get_players_data();
   std::vector<Player> players(2);
 
   for (int i = 0; i < 2; i++) {
@@ -35,9 +35,10 @@ std::vector<Player> chose_players() {
 
       printf("SELECIONAR JUGADORES\n");
       printf("Ingrese username del jugador %d: ", i + 1);
+      // FIXME: FIX: if it doesn't work
       std::string username;
       std::cin >> username;
-      if (search_player(username, playersData, players, i)) {
+      if (search_player(username, players_data, players, i)) {
         selected = true;
         std::cout << players[i].username << " fue seleccionado!\n";
       }

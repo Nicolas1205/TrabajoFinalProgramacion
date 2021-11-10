@@ -1,14 +1,14 @@
----
-title: Trabajo Final Integrador Programacion
-author: Anachuri Nicolas Daniel
-date: Fri, 05 Nov 2021
----
+
+# Trabajo Final Integrado - Programacion
+
+- author : Anachuri Nicolas Daniel 
+
 
 # Requierements
 
-- GCC
+- GCC (Version used 11.1.0)
 
-# Instalation
+# Quick Start 
 
 Download this repo:
 
@@ -16,14 +16,18 @@ Download this repo:
 git clone https://github.com/Nicolas1205/TrabajoFinalProgramacion.git
 ```
 
-Use the binaries `app` located in `bin` directory
+## If you use Linux based system
 
-Or alternativaly you can build from source
+Use the binary `app` located in `bin` directory
+
+## Build from source
+
+Alternativaly you can compile from source
 
 Run inside `src` direcotory:
 
 ```bash
-g++ -Wall -std=c++17 -o main main.cpp genTable.cpp registerPlayer.cpp chosePlayer.cpp sieve.cpp showMenus.cpp play.cpp
+g++ -std=c++17 -o main main.cpp genTable.cpp registerPlayer.cpp chosePlayer.cpp sieve.cpp showMenus.cpp play.cpp
 ```
 
 

@@ -1,53 +1,59 @@
-#include "../include/genTable.h"
+#include "../include/gen_table.h"
 #include "../include/play.h"
-#include "../include/registerPlayer.h"
-#include "../include/showMenus.h"
+#include "../include/register_player.h"
+#include "../include/show_menus.h"
 #include <chrono>
 #include <iostream>
 #include <thread>
 
 int main() {
 
-  char menuOp;
-  int goldenScore = 0;
+  const char *CLEAR = "\033[2J\033[1;1H";
+
+  char menu_option;
+
+  int golden_score = 0;
+
   std::vector<std::vector<Cell>> table;
-  std::vector<Player> playersData = get_players_data();
-  std::vector<bool> loaded(2);
+  std::vector<Player> players_data = get_players_data();
+  std::vector<bool> loaded(2, 0);
 
   while (1) {
-    std::cout << "\033[2J\033[1;1H";
-    show_main_menu(loaded[0], playersData.size(), playersData.size(),
-                   goldenScore);
-    std::cin >> menuOp;
-    if (menuOp == '1') {
-      table = gen_table(goldenScore);
+    std::cout << CLEAR;
+    show_main_menu(loaded[0], players_data.size(), &golden_score);
+    std::cin >> menu_option;
+    if (menu_option == '1') {
+      table = gen_table(&golden_score);
       loaded[0] = 1;
     }
-    if (menuOp == '2') {
+    if (menu_option == '2') {
 
-      std::cout << "\033[2J\033[1;1H";
+      if (players_data.size() == 10)
+        continue;
+
+      std::cout << CLEAR;
       std::string name, surname, username;
-      puts("*************** Registrar Usario **************\n");
+      puts("*************** Registrar Usario **************");
       printf("\nNombre: ");
       std::cin >> name;
       printf("\nApellido: ");
       std::cin >> surname;
       printf("\nNombre de Usario: ");
       std::cin >> username;
-      post_player(name, surname, username, playersData);
+      post_player(name, surname, username, players_data);
       loaded[1] = 1;
     }
-    if (menuOp == '3') {
-      std::cout << "\033[2J\033[1;1H";
+    if (menu_option == '3') {
+      std::cout << CLEAR;
       show_players();
       std::this_thread::sleep_for(std::chrono::seconds(5));
     }
-    if (menuOp == '4') {
-      if (loaded[0] && playersData.size() >= 2) {
-        play(table, goldenScore);
+    if (menu_option == '4') {
+      if (loaded[0] && players_data.size() >= 2) {
+        play(table, &golden_score);
       }
     }
-    if (menuOp == '5')
+    if (menu_option == '5')
       break;
   }
 

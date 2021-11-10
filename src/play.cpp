@@ -1,8 +1,8 @@
 #include "../include/play.h"
-#include "../include/chosePlayer.h"
-#include "../include/genTable.h"
-#include "../include/registerPlayer.h"
-#include "../include/showMenus.h"
+#include "../include/chose_player.h"
+#include "../include/gen_table.h"
+#include "../include/register_player.h"
+#include "../include/show_menus.h"
 #include "../include/sieve.h"
 #include <chrono>
 #include <iostream>
@@ -13,26 +13,29 @@
 #include <utility>
 #include <vector>
 
+std::random_device r;
+std::default_random_engine el(r());
+std::uniform_int_distribution<int> uniform_dist(0, 9);
+
+const char *CLEAR = "\033[2J\033[1;1H";
+
 std::pair<int, int> get_dices() {
-  std::random_device r;
-  std::default_random_engine el(r());
-  std::uniform_int_distribution<int> uniform_dist(0, 9);
   return std::make_pair(uniform_dist(el), uniform_dist(el));
 }
 
 int get_score(std::vector<std::vector<Cell>> &table, int d1, int d2) {
 
-  int score = 0, value = table[d1][d2].cellValue;
+  int score = 0, value = table[d1][d2].cell_value;
 
-  if (table[d1][d2].isPrime && table[d1][d2].isPalindrome &&
-      table[d1][d2].inDiagonal) {
+  if (table[d1][d2].is_prime && table[d1][d2].is_palindrome &&
+      table[d1][d2].in_diagonal) {
     score = value * 4;
-  } else if (table[d1][d2].isPrime && table[d1][d2].isPalindrome) {
+  } else if (table[d1][d2].is_prime && table[d1][d2].is_palindrome) {
     score = value * 3;
-  } else if (table[d1][d2].isPrime ||
-             table[d1][d2].isPalindrome && table[d1][d2].inDiagonal) {
+  } else if (table[d1][d2].is_prime ||
+             table[d1][d2].is_palindrome && table[d1][d2].in_diagonal) {
     score = value * 2;
-  } else if (table[d1][d2].isPrime || table[d1][d2].isPalindrome) {
+  } else if (table[d1][d2].is_prime || table[d1][d2].is_palindrome) {
     score = value;
   }
   return score;
@@ -40,22 +43,22 @@ int get_score(std::vector<std::vector<Cell>> &table, int d1, int d2) {
 
 std::vector<bool> specials(std::vector<std::vector<Cell>> &table, int d1,
                            int d2) {
-  std::vector<bool> isSpecial(5, 0);
-  if (table[d1][d2].isPrime)
-    isSpecial[0] = 1;
-  if (table[d1][d2].isPalindrome)
-    isSpecial[1] = 1;
-  if (table[d1][d2].inDiagonal)
-    isSpecial[2] = 1;
-  if (table[d1][d2].isFriend)
-    isSpecial[3] = 1;
-  if (table[d1][d2].isPerfect)
-    isSpecial[4] = 1;
-  return isSpecial;
+  std::vector<bool> is_special(5, 0);
+  if (table[d1][d2].is_prime)
+    is_special[0] = 1;
+  if (table[d1][d2].is_palindrome)
+    is_special[1] = 1;
+  if (table[d1][d2].in_diagonal)
+    is_special[2] = 1;
+  if (table[d1][d2].is_friend)
+    is_special[3] = 1;
+  if (table[d1][d2].is_perfect)
+    is_special[4] = 1;
+  return is_special;
 }
 
 void throw_dices(std::vector<Player> &players,
-                 std::vector<std::vector<Cell>> &table, int &goldenScore) {
+                 std::vector<std::vector<Cell>> &table, int *golden_score) {
 
   bool player_turn = 0;
   while (1) {
@@ -64,38 +67,51 @@ void throw_dices(std::vector<Player> &players,
 
       int score = 0;
 
-      if (!table[d1][d2].isCatched) {
-        table[d1][d2].isCatched = true;
-        table[d1][d2].playerCatcher = players[player_turn].username;
-      } else if (table[d1][d2].isCatched &&
-                 table[d1][d2].playerCatcher != players[player_turn].username) {
+      if (!table[d1][d2].is_catched) {
+        table[d1][d2].is_catched = true;
+        table[d1][d2].player_catcher = players[player_turn].username;
+      } else if (table[d1][d2].is_catched &&
+                 table[d1][d2].player_catcher !=
+                     players[player_turn].username) {
 
-        show_player_results(players[player_turn], std::make_pair(d1, d2),
-                            specials(table, d1, d2), table[d1][d2].cellValue,
+        show_player_results(&players[player_turn], std::make_pair(d1, d2),
+                            specials(table, d1, d2), table[d1][d2].cell_value,
                             score);
 
-        bool property_of = player_turn == 1 ? 1 : 0;
-        std::cout << "\nYA HA SIDO TOMADA POR" << players[property_of].username
+        bool property_of = player_turn == 1 ? 0 : 1;
+        std::cout << "\nYA HA SIDO TOMADA POR " << players[property_of].username
                   << '\n';
         players[player_turn].turns++;
         continue;
       }
 
-      if (table[d1][d2].isFriend)
+      if (table[d1][d2].is_friend)
         players[player_turn].turns += 1;
-      if (table[d1][d2].isPerfect)
+      if (table[d1][d2].is_perfect)
         players[player_turn].turns += 2;
 
       score = get_score(table, d1, d2);
-
       players[player_turn].points += score;
 
-      show_player_results(players[player_turn], std::make_pair(d1, d2),
-                          specials(table, d1, d2), table[d1][d2].cellValue,
+      if (!score)
+        players[player_turn].nothing_catched++;
+
+      show_player_results(&players[player_turn], std::make_pair(d1, d2),
+                          specials(table, d1, d2), table[d1][d2].cell_value,
                           score);
 
-      if (players[player_turn].points >= goldenScore) {
-        show_player_winner(players[player_turn]);
+      std::this_thread::sleep_for(std::chrono::seconds(1));
+
+      if (players[player_turn].nothing_catched >= 3) {
+        std::cout << players[player_turn].username
+                  << " No Ha Atrapado Numeros Especiales En Tres  Turnos"
+                     " Seguidos!!! -10 puntos\n";
+        players[player_turn].points -= 10;
+        players[player_turn].nothing_catched = 0;
+      }
+
+      if (players[player_turn].points >= *golden_score) {
+        show_player_winner(&players[player_turn]);
         return;
       }
     }
@@ -105,33 +121,33 @@ void throw_dices(std::vector<Player> &players,
   }
 }
 
-void play(std::vector<std::vector<Cell>> &table, int &goldenScore) {
+void play(std::vector<std::vector<Cell>> &table, int *golden_score) {
 
-  char playOptions;
+  char play_options;
   std::vector<Player> players;
   bool loaded = 0;
 
   while (1) {
-    std::cout << "\033[2J\033[1;1H";
+    std::cout << CLEAR;
     show_play_menu(players);
 
-    scanf("%c", &playOptions);
+    scanf("%c", &play_options);
 
-    if (playOptions == '1') {
-      std::cout << "\033[2J\033[1;1H";
+    if (play_options == '1') {
+      std::cout << CLEAR;
       players = chose_players();
       loaded = 1;
     }
-    if (playOptions == '2') {
-      std::cout << "\033[2J\033[1;1H";
+    if (play_options == '2') {
+      std::cout << CLEAR;
       if (loaded) {
-        throw_dices(players, table, goldenScore);
+        throw_dices(players, table, golden_score);
         players[0].points = 0;
         players[1].points = 0;
         std::this_thread::sleep_for(std::chrono::seconds(5));
       }
     }
-    if (playOptions == '3')
+    if (play_options == '3')
       return;
   }
 }

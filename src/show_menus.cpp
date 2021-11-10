@@ -1,33 +1,36 @@
-#include "../include/showMenus.h"
-#include "../include/chosePlayer.h"
+#include "../include/show_menus.h"
+#include "../include/chose_player.h"
 #include <iostream>
 #include <stdio.h>
 #include <string>
 #include <vector>
 
-void show_player_winner(Player winner) {
+void show_player_winner(Player *winner) {
   std::cout << "******** RESULTADOS DE LA PARTIDA **************\n";
-  std::cout << "Jugador: " << winner.username << " ha ganado!!!\n\n"
-            << "Nombre Completo: " << winner.name << " " << winner.surname
+  std::cout << "Jugador: " << winner->username << " ha ganado!!!\n\n"
+            << "Nombre Completo: " << winner->name << " " << winner->surname
             << '\n';
-  std::cout << "Puntaje Total: " << winner.points << '\n';
+  std::cout << "Puntaje Total: " << winner->points << '\n';
 }
 
-void show_main_menu(bool tCreated, bool pExist, int size, int &goldenScore) {
+void show_main_menu(bool table_created, size_t players_sz, int *golden_score) {
+
   printf("************* PRINCIPAL **************** \n"
          "1- Generar tablero  ");
 
-  if (tCreated)
-    printf("(TABLERO GENERADO) Puntaje Dorado: %d", goldenScore);
+  if (table_created)
+    printf("(TABLERO GENERADO) Puntaje Dorado: %d", *golden_score);
 
   printf("\n2- Registrar jugadores ");
 
-  if (pExist)
+  if (players_sz)
     printf("(Existen Jugadores Registrados)");
-  if (size >= 2)
-    printf(" %d ", size);
+  if (players_sz >= 2)
+    printf(" %zu ", players_sz);
   else
-    printf(" se necesitan 2 o mas jugadores, ahora mismo %d", size);
+    printf(" se necesitan 2 o mas jugadores, ahora mismo %zu", players_sz);
+  if (players_sz == 10)
+    printf(" (No se pueden registar mas jugadores) ");
 
   printf("\n3- Listar jugadores \n"
          "4- Jugar \n"
@@ -53,23 +56,23 @@ void show_play_menu(std::vector<Player> &players) {
          "Elija una opcion: ");
 }
 
-void show_player_results(Player player, std::pair<int, int> dices,
-                         std::vector<bool> isSpecial, int foundNumber,
+void show_player_results(Player *player, std::pair<int, int> dices,
+                         std::vector<bool> is_special, int found_number,
                          int score) {
-  std::cout << "\n\nTurno de jugador: " << player.username << '\n';
+  std::cout << "\n\nTurno de jugador: " << player->username << '\n';
   std::cout << "Lanzando dados...\n";
   std::cout << "Dado 1: " << dices.first << " - Dado 2: " << dices.second
             << '\n';
-  std::cout << "Numero Encontrado: " << foundNumber;
-  if (isSpecial[0])
+  std::cout << "Numero Encontrado: " << found_number;
+  if (is_special[0])
     std::cout << " (primo) ";
-  if (isSpecial[1])
+  if (is_special[1])
     std::cout << " (capicua) ";
-  if (isSpecial[2])
+  if (is_special[2])
     std::cout << " (diagonal) ";
-  if (isSpecial[3])
+  if (is_special[3])
     std::cout << " (amigo) 1 turno ";
-  if (isSpecial[4])
+  if (is_special[4])
     std::cout << " (perfecto) 2 turnos";
   std::cout << "\nPuntaje : " << score << '\n';
 }

@@ -5,13 +5,13 @@
 
 std::vector<bool> get_sieve() {
 
-  std::vector<bool> sieve(1000, 1);
+  std::vector<bool> sieve(10000, 1);
 
   sieve[0] = 0;
   sieve[1] = 0;
 
   for (int i = 2; i <= sqrt(sieve.size()); i++) {
-    for (int j = i + i; j < sieve.size(); j += i) {
+    for (int j = i << 1; j < sieve.size(); j += i) {
       sieve[j] = 0;
     }
   }
