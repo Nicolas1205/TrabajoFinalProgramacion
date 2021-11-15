@@ -1,0 +1,81 @@
+#+TITLE: Trabajo Final Programacion
+#+SUBTITLE: Documentacion
+#+AUTHOR: Anachuri Nicolas Daniel
+#+OPTIONS: :TOC:
+#+lastmod: date
+#+property: header-args
+#+categories[]: Productivity
+#+tags[]: Emacs
+#+images[]:
+#+keyphrase: Some Project
+#+description: Some Description
+#+weight: 40
+#+draft false
+#+seo: false
+
+
+* Hugo themes i liked
+
+- Hyde
+- Mini
+- Eureka
+- BlackBurn
+- =m10c=
+- =Codex=
+- Fuji
+- Harbor
+- Researcher
+- Base16
+- Shell
+- HugoTex
+- Iris
+- PaperBack
+- Tufte
+- =npq hugo=
+- =monochrome=
+- =Niello=
+
+
+* Table of Contents  :noexport:toc:
+- [[#hugo-themes-i-liked][Hugo themes i liked]]
+- [[#introduccion][Introduccion]]
+- [[#para-empezar][Para Empezar]]
+  - [[#entendiendo-la-estructura][Entendiendo la estructura]]
+  - [[#probar-el-programa][Probar el programa]]
+- [[#explicacion--y-conceptos][Explicacion  y Conceptos]]
+  - [[#main][Main]]
+  - [[#tabla][Tabla]]
+  - [[#players][Players]]
+  - [[#play][Play]]
+  - [[#trouble-shoting][Trouble Shoting]]
+
+* Introduccion
+
+* Para Empezar
+
+** Entendiendo la estructura
+
+#+begin_src shell :export results
+tree ./
+#+end_src
+
+** Probar el programa
+
+Make a make file and create a  code::blocks proyect so dont fuck me up.
+
+#+begin_src shell :export code
+#+end_src
+
+
+* Explicacion  y Conceptos
+
+** Main
+
+
+** Tabla
+
+** Players
+
+** Play
+
+** Trouble Shoting

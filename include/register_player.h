@@ -3,7 +3,7 @@
 #ifndef REGISTERPLAYER
 #define REGISTERPLAYER
 
-typedef struct Player {
+typedef struct {
   std::string name, surname, username;
   bool playing = false;
   int points = 0;

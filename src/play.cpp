@@ -27,34 +27,19 @@ int get_score(std::vector<std::vector<Cell>> &table, int d1, int d2) {
 
   int score = 0, value = table[d1][d2].cell_value;
 
-  if (table[d1][d2].is_prime && table[d1][d2].is_palindrome &&
-      table[d1][d2].in_diagonal) {
+  if (table[d1][d2].specials[0] && table[d1][d2].specials[1] &&
+      table[d1][d2].specials[4]) {
     score = value * 4;
-  } else if (table[d1][d2].is_prime && table[d1][d2].is_palindrome) {
+  } else if (table[d1][d2].specials[0] && table[d1][d2].specials[1]) {
     score = value * 3;
-  } else if (table[d1][d2].is_prime ||
-             table[d1][d2].is_palindrome && table[d1][d2].in_diagonal) {
+  } else if (table[d1][d2].specials[0] ||
+             table[d1][d2].specials[1] && table[d1][d2].specials[4]) {
     score = value * 2;
-  } else if (table[d1][d2].is_prime || table[d1][d2].is_palindrome) {
+  } else if (table[d1][d2].specials[0] || table[d1][d2].specials[1]) {
     score = value;
   }
-  return score;
-}
 
-std::vector<bool> specials(std::vector<std::vector<Cell>> &table, int d1,
-                           int d2) {
-  std::vector<bool> is_special(5, 0);
-  if (table[d1][d2].is_prime)
-    is_special[0] = 1;
-  if (table[d1][d2].is_palindrome)
-    is_special[1] = 1;
-  if (table[d1][d2].in_diagonal)
-    is_special[2] = 1;
-  if (table[d1][d2].is_friend)
-    is_special[3] = 1;
-  if (table[d1][d2].is_perfect)
-    is_special[4] = 1;
-  return is_special;
+  return score;
 }
 
 void throw_dices(std::vector<Player> &players,
@@ -75,7 +60,7 @@ void throw_dices(std::vector<Player> &players,
                      players[player_turn].username) {
 
         show_player_results(&players[player_turn], std::make_pair(d1, d2),
-                            specials(table, d1, d2), table[d1][d2].cell_value,
+                            table[d1][d2].specials, table[d1][d2].cell_value,
                             score);
 
         bool property_of = player_turn == 1 ? 0 : 1;
@@ -85,10 +70,8 @@ void throw_dices(std::vector<Player> &players,
         continue;
       }
 
-      if (table[d1][d2].is_friend)
-        players[player_turn].turns += 1;
-      if (table[d1][d2].is_perfect)
-        players[player_turn].turns += 2;
+      players[player_turn].turns += table[d1][d2].specials[2] ? 1 : 0;
+      players[player_turn].turns += table[d1][d2].specials[3] ? 2 : 0;
 
       score = get_score(table, d1, d2);
       players[player_turn].points += score;
@@ -97,15 +80,15 @@ void throw_dices(std::vector<Player> &players,
         players[player_turn].nothing_catched++;
 
       show_player_results(&players[player_turn], std::make_pair(d1, d2),
-                          specials(table, d1, d2), table[d1][d2].cell_value,
+                          table[d1][d2].specials, table[d1][d2].cell_value,
                           score);
 
-      std::this_thread::sleep_for(std::chrono::seconds(1));
+      // std::this_thread::sleep_for(std::chrono::seconds(1));
 
       if (players[player_turn].nothing_catched >= 3) {
         std::cout << players[player_turn].username
-                  << " No Ha Atrapado Numeros Especiales En Tres  Turnos"
-                     " Seguidos!!! -10 puntos\n";
+                  << " no ha atrapado numeros especiales"
+                     " -10 puntos\n";
         players[player_turn].points -= 10;
         players[player_turn].nothing_catched = 0;
       }

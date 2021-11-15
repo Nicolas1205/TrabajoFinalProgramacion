@@ -57,22 +57,22 @@ void show_play_menu(std::vector<Player> &players) {
 }
 
 void show_player_results(Player *player, std::pair<int, int> dices,
-                         std::vector<bool> is_special, int found_number,
-                         int score) {
+                         bool *specials, int found_number, int score) {
+
   std::cout << "\n\nTurno de jugador: " << player->username << '\n';
   std::cout << "Lanzando dados...\n";
   std::cout << "Dado 1: " << dices.first << " - Dado 2: " << dices.second
             << '\n';
   std::cout << "Numero Encontrado: " << found_number;
-  if (is_special[0])
-    std::cout << " (primo) ";
-  if (is_special[1])
-    std::cout << " (capicua) ";
-  if (is_special[2])
-    std::cout << " (diagonal) ";
-  if (is_special[3])
-    std::cout << " (amigo) 1 turno ";
-  if (is_special[4])
-    std::cout << " (perfecto) 2 turnos";
+
+  std::vector<std::string> messages = {" (primo) ", " (capicua) ",
+                                       " (amigo) 1 turno ",
+                                       " (perfecto 2 turnos) ", " (diagonal) "};
+
+  for (int i = 0; i < 5; i++) {
+    if (specials[i])
+      std::cout << messages[i];
+  }
+
   std::cout << "\nPuntaje : " << score << '\n';
 }

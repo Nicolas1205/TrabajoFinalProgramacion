@@ -28,70 +28,56 @@ int get_random() {
   return get_random();
 }
 
-std::vector<std::vector<Cell>> gen_table(int *goldenScore) {
+int calculate_sum_div(int number) {
+  int sum = 0;
+  for (int i = 1; i < number; i++) {
+    if (!(number % i))
+      sum += i;
+  }
+  return sum;
+}
+
+bool palindrome_number(int number) {
+
+  std::string palindrome = std::to_string(number), s = palindrome;
+
+  std::reverse(s.begin(), s.end());
+
+  if (s == palindrome) {
+    count_palindromes++;
+    return true;
+  }
+  return false;
+}
+
+bool prime_number(int number) { return sieve[number]; }
+
+bool perfect_number(int number) { return calculate_sum_div(number) == number; }
+
+bool friend_number(int number) {
+  return number == calculate_sum_div(calculate_sum_div(number));
+}
+
+std::vector<std::vector<Cell>> gen_table(int &golden_score) {
 
   std::vector<std::vector<Cell>> table(COLS, std::vector<Cell>(ROWS));
 
-  auto calculate_perfect_number = [](int value) {
-    int sum = 0;
-    for (int i = 1; i < value; i++) {
-      if (!(value % i))
-        sum += i;
-    }
-    return sum;
-  };
-
-  auto prime_number = [](int value) {
-    if (sieve[value]) {
-      count_primes++;
-      return true;
-    }
-    return false;
-  };
-
-  auto palindrome_number = [](int value) {
-    std::string palindrome = std::to_string(value), s = palindrome;
-
-    std::reverse(s.begin(), s.end());
-
-    if (s == palindrome) {
-      count_palindromes++;
-      return true;
-    }
-    return false;
-  };
-
-  auto perfect_number = [](int value,
-                           std::function<int(int)> calculate_perfect_number) {
-    return calculate_perfect_number(value) == value ? 1 : 0;
-  };
-
-  auto friend_number = [](int value,
-                          std::function<int(int)> calculate_perfect_number) {
-    return value == calculate_perfect_number(calculate_perfect_number(value));
-  };
+  bool (*ptr_functions[])(int) = {prime_number, palindrome_number,
+                                  friend_number, perfect_number};
 
   for (int i = 0; i < COLS; i++) {
     for (int j = 0; j < ROWS; j++) {
-
-      table[i][j].cell_value = get_random();
-      table[i][j].is_prime = prime_number(table[i][j].cell_value) ? 1 : 0;
-      table[i][j].is_palindrome =
-          palindrome_number(table[i][j].cell_value) ? 1 : 0;
-      table[i][j].in_diagonal = i == j ? 1 : 0;
-      table[i][j].is_friend =
-          friend_number(table[i][j].cell_value, calculate_perfect_number) ? 1
-                                                                          : 0;
-      table[i][j].is_perfect =
-          perfect_number(table[i][j].cell_value, calculate_perfect_number) ? 1
-                                                                           : 0;
-
-      if (table[i][j].is_prime && table[i][j].is_palindrome)
-        count_both++;
+      int random = get_random();
+      table[i][j].cell_value = random;
+      for (int k = 0; k < 4; k++) {
+        table[i][j].specials[k] = (*ptr_functions[k])(random);
+      }
+      table[i][j].specials[0] && table[i][j].specials[1] ? count_both++ : 0;
+      table[i][j].specials[4] = i == j ? 1 : 0;
     }
   }
 
-  *goldenScore = count_primes + count_palindromes + count_both + 10000;
+  golden_score = count_primes + count_palindromes + count_both + 10000;
 
   return table;
 }

@@ -23,7 +23,7 @@ int main() {
     show_main_menu(loaded[0], players_data.size(), &golden_score);
     std::cin >> menu_option;
     if (menu_option == '1') {
-      table = gen_table(&golden_score);
+      table = gen_table(golden_score);
       loaded[0] = 1;
     }
     if (menu_option == '2') {
